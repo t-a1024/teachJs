@@ -5,8 +5,10 @@ function isSmartPhone() {
         now:{x:0,y:0},
         end:true,
       }
+      console.log("smartPhone");
       return true;
     } else {
+      console.log("PC");
       return false;
     }
 }
@@ -22,3 +24,4 @@ document.addEventListener("touchmove", function(event) {
 document.addEventListener("touchend", function(event){
     smartPhoneData.end=true
 })
+isSmartPhone();
