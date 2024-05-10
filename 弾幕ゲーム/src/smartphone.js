@@ -14,7 +14,7 @@ start:{x:0,y:0},
 now:{x:0,y:0},
 end:true,
 }
-const interSmartPhone=document.getElementById("app");
+const app=document.getElementById("app");
 isSmartPhone();
 document.addEventListener("touchstart",function (event) {
   keySituation.d=true
@@ -57,7 +57,6 @@ function controlBySmartPhone() {
     }
     }
 }
-const app=document.getElementById("app")
 function drawpuniControler(){
     app.innerHTML="";
     const preBox=document.createElement("div");
