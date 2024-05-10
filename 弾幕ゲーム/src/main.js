@@ -58,6 +58,9 @@ function PlayerControl() {
     } else if (keySituation.w && Player.position.y - Player.size> 0) {
         Player.position.y -= Player.speed; // 上キーが押されている場合は上に移動
     }
+    if (isSmartPhone()) {
+        controlBySmartPhone();
+    }
 }
 
 // メイン更新関数
