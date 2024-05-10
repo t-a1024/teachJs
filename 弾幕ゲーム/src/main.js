@@ -44,6 +44,10 @@ function clearCanvas() {// キャンバスのクリア(塗りつぶし)
 
 // プレイヤーの操作関数
 function PlayerControl() {
+    if (isSmartPhone()) {//スマホとか用
+        controlBySmartPhone();
+        return;
+    }
     if (Player.invincibilityTime > 30) {
         Player.position.x -= 0.5; // 敵にぶつかった際にノックバックする
         return;//操作は受け付けない
@@ -58,9 +62,7 @@ function PlayerControl() {
     } else if (keySituation.w && Player.position.y - Player.size> 0) {
         Player.position.y -= Player.speed; // 上キーが押されている場合は上に移動
     }
-    if (isSmartPhone()) {
-        controlBySmartPhone();
-    }
+    
 }
 
 // メイン更新関数
