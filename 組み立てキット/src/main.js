@@ -9,7 +9,7 @@ const Player = {
     bulletFixedInterval: 20, // 弾の発射間隔
     size: 15, // プレイヤーのサイズ
     position: { x: 50, y: 240 }, // プレイヤーの位置
-    bulletInterval: 0, // 弾の発射間隔カウンタ
+    bulletInterval: 1, // 弾の発射間隔カウンタ
     Hitstun: 60, // ヒットスタン時間
     invincibilityTime: 0, // 無敵時間
 }
@@ -28,16 +28,19 @@ function PlayerControl() {
         Player.position.x -= Player.speed; // 左キーが押されている場合は左に移動
     }
     if (keySituation.s && Player.position.y + Player.size < canvas.height) {
-        //上を参考に、sが押されている時に下に動くようなコードを書いてください
+        Player.position.y += Player.speed; 
     } else if (keySituation.w && Player.position.y - Player.size> 0) {
-        //上を参考に、wが押されている時に上に動くようなコードを書いてください
+        Player.position.y -= Player.speed; 
     }
 }
 // 敵の設定
 // 敵情報の初期化
-const enemyInformation = getTemplate("enemyArray");//data.js内のenemyInformationTemplateの取得
-/* 
- */
+const enemyInformation = {
+    "enemyArray": new Array(300).fill(null), // 敵の配列
+    "interbal": 0, // 敵が出てくるインターバル
+    "fixedInterval": 5 // 敵の生成間隔
+};
+
 const enemyImage=getImage("enemy");
 
 function drawPlayer() {//画像を描画する例
@@ -48,9 +51,9 @@ function drawBullet(bullet) {//弾の描画
     /* 
     bulletは以下の形連想配列です
     {
-    "speed":{"Vx":number,"Vy":number},
-    "position":{"x":number,"y":number},
-    "size":number,
+    "speed":{"Vx":number,"Vy":number},それぞれの方向への速度(px/s)
+    "position":{"x":number,"y":number},弾の位置
+    "size":number,弾の大きさ(半径)
     }
     */
     ctx.beginPath();
@@ -60,21 +63,57 @@ function drawBullet(bullet) {//弾の描画
     ctx.fill();//塗りつぶし　stroke()で枠線のみの描画も可能
 }
 
+function drawHPAndScore() {//スコアとHPの描画
+    ctx.textAlign="start"
+    ctx.font = '50px Roboto medium';//フォントと文字の大きさ
+    ctx.fillStyle='black';
+    ctx.fillText("❤️✖️"+Player.HP.toString(), 10, 50);//左下が(10,50)
+    ctx.fillStyle='black';
+    ctx.textAlign="end";
+    ctx.fillText("Score:"+score.toString(), 640, 50);//右下が(640,50)
+}
+
 function update(){
     //ctx.clearRect(0, 0, canvas.width, canvas.height);後で外して
-    //PlayerControl();
-    //drawPlayer();
+    PlayerControl();
+    drawPlayer();
 
-    // Enterキーでの弾の発射
-    if (keySituation.Enter && Player.bulletInterval <= 0) {
+    // 弾の発射
+    if (Player.bulletInterval <= 0) {
         Player.bulletInterval = Player.bulletFixedInterval; // 弾の発射間隔の設定
-        const bullet = getTemplate("MyBulletInformation");
+        const bullet = {
+            "speed":{"Vx":4,"Vy":0},
+            "position":{"x":Player.position.x,"y":Player.position.y},
+            "size":15,
+        };
         //バレットの位置をplayerの位置にしてください。
         const index = MyBulletArray.indexOf(null);
         if (index !== -1) {
             MyBulletArray[index] = bullet; // 空いている弾丸スロットに新しい弾を追加
         }
+    }else {
+        //ここでIntervalを１減らしておく
     }
-    
+    MyBulletArray.forEach((bullet, bIndex) => {//弾を一つずつ描画し、弾を動かす。
+        if (bullet) {
+            drawBullet(bullet);
+            bullet.position.x += bullet.speed.Vx;
+            bullet.position.y += bullet.speed.Vy;
+            if (bullet && bullet.position.x > canvas.width) {
+                MyBulletArray[bIndex] = null; // 画面外に出た弾丸を削除
+            }
+            
+            enemyInformation.enemyArray.forEach((enemy) => {
+                // 弾丸と敵が当たっているかの判別と、当たっていた時の動作をここに描く。
+            });
+        }
+    });//
+
+    //敵のインターバルが0以下の場合、新しくenemyを作成してenemyInformation.enemyArrayに挿入する
+    //0以上の場合、インターバルを１減らす。
+
+    //敵を一体ずつ描画し、敵を動かす。
+
+    drawHPAndScore();//体力とスコアの描画
     window.requestAnimationFrame(update);//次の描画がされるタイミングにupdateを予約する
 }

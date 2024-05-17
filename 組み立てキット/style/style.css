@@ -7,6 +7,7 @@ canvas{
     position: absolute;
     top: 50%;
     margin-top: -240px;
+    background-color: aqua;
 }
 .bg_pattern {
     position: fixed;
