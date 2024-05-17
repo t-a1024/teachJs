@@ -128,7 +128,7 @@ function update() {
             } else if (enemy.HP <= 0) {
                 enemyInformation.enemyArray[index] = null; // 倒された敵を削除
                 score++; // ポイントを増やす
-            }//elseを除くと途中でenemyがnullになってenemy.HPが存在しないからエラーになったりする。
+            }//elseを除くと途中でenemyがnullになってenemyが存在しないからエラーになったりする。
         }
     });
 
