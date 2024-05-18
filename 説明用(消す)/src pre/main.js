@@ -45,8 +45,8 @@ const enemyInformation = {
 
 const enemyImage=getImage("enemy");
 
-function drawPlayer() {//画像を描画する例
-    ctx.drawImage(PlayerImage, Player.position.x - 15, Player.position.y - 15, Player.size * 2, Player.size * 2);//(画像データ,x(左上),y(左上),大きさ(x方向),大きさ(y方向))
+function drawPlayer() {//画像を描画する
+    ctx.drawImage(PlayerImage, Player.position.x - Player.size, Player.position.y - Player.size, Player.size * 2, Player.size * 2);//(画像データ,x(左上),y(左上),大きさ(x方向),大きさ(y方向))
 }
 
 function drawBullet(bullet) {//弾の描画
@@ -76,46 +76,9 @@ function drawHPAndScore() {//スコアとHPの描画
 }
 //updateを呼び出すメソッドはdata.jsの中にあるよ
 function update(){
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);//描画のリセット
+    ctx.clearRect(0, 0, canvas.width, canvas.height);//描画のリセット
     PlayerControl();
     drawPlayer();
-
-    // 弾の発射
-    if (Player.bulletInterval <= 0) {
-        Player.bulletInterval = Player.bulletFixedInterval; // 弾の発射間隔の設定
-        const bullet = {
-            "speed":{"Vx":4,"Vy":0},
-            "position":{"x":Player.position.x,"y":Player.position.y},
-            "size":15,
-        };
-        //バレットの位置をplayerの位置にしてください。
-        const index = MyBulletArray.indexOf(null);
-        if (index !== -1) {
-            MyBulletArray[index] = bullet; // 空いている弾丸スロットに新しい弾を追加
-        }
-    }else {
-        //ここでIntervalを１減らしておく
-    }
-    MyBulletArray.forEach((bullet, bIndex) => {//弾を一つずつ描画し、弾を動かす。
-        if (bullet) {
-            drawBullet(bullet);
-            bullet.position.x += bullet.speed.Vx;
-            bullet.position.y += bullet.speed.Vy;
-            if (bullet && bullet.position.x > canvas.width) {
-                MyBulletArray[bIndex] = null; // 画面外に出た弾丸を削除
-            }
-            
-            enemyInformation.enemyArray.forEach((enemy) => {
-                // 弾丸と敵が当たっているかの判別と、当たっていた時の動作をここに描く。
-            });
-        }
-    });//
-
-    //敵のインターバルが0以下の場合、新しくenemyを作成してenemyInformation.enemyArrayに挿入する
-    //0以上の場合、インターバルを１減らす。
-
-    //敵を一体ずつ描画し、敵を動かす。
-
-    drawHPAndScore();//体力とスコアの描画
     window.requestAnimationFrame(update);//次の描画がされるタイミングにupdateを予約する
+    drawHPAndScore();//体力とスコアの描画　一旦スルー
 }

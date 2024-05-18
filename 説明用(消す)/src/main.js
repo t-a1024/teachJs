@@ -46,7 +46,12 @@ const enemyInformation = {
 const enemyImage=getImage("enemy");
 
 function drawPlayer() {//画像を描画する例
-    ctx.drawImage(PlayerImage, Player.position.x - 15, Player.position.y - 15, Player.size * 2, Player.size * 2);//(画像データ,x(左上),y(左上),大きさ(x方向),大きさ(y方向))
+    ctx.beginPath();
+    ctx.fillStyle='yellow'
+    ctx.arc(Player.position.x, Player.position.y,15,0,Math.PI*2);
+    ctx.fill();
+    ctx.drawImage(PlayerImage, Player.position.x, Player.position.y, Player.size * 2, Player.size * 2);//(画像データ,x(左上),y(左上),大きさ(x方向),大きさ(y方向))
+    
 }
 
 function drawBullet(bullet) {//弾の描画
@@ -76,7 +81,7 @@ function drawHPAndScore() {//スコアとHPの描画
 }
 //updateを呼び出すメソッドはdata.jsの中にあるよ
 function update(){
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);//描画のリセット
+    ctx.clearRect(0, 0, canvas.width, canvas.height);//描画のリセット
     PlayerControl();
     drawPlayer();
 
