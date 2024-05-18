@@ -6,7 +6,16 @@ const ctx = canvas.getContext("2d");
 let score = 0;
 
 // プレイヤーの設定
-const Player = getTemplate("Player");
+const Player = {
+    HP: 5, // プレイヤーの体力
+    speed: 2, // プレイヤーの移動速度
+    bulletFixedInterval: 20, // 弾の発射間隔
+    size: 15, // プレイヤーのサイズ
+    position: { x: 50, y: 240 }, // プレイヤーの位置
+    bulletInterval: 1, // 弾の発射間隔カウンタ
+    Hitstun: 60, // ヒットスタン時間
+    invincibilityTime: 0, // 無敵時間
+};
 
 //画像の取得
 const PlayerImage=getImage("Player");
@@ -76,9 +85,11 @@ function update() {
     // Enterキーでの弾の発射
     if (keySituation.Enter && Player.bulletInterval <= 0) {
         Player.bulletInterval = Player.bulletFixedInterval; // 弾の発射間隔の設定
-        const bullet = getTemplate("MyBullet");//data.jsのbulletを複製
-        bullet.position.x = Player.position.x;
-        bullet.position.y = Player.position.y;//弾の位置をプレイヤーの位置に変更
+        const bullet = MyBulletTemplate={
+            "speed":{"Vx":4,"Vy":0},
+            "position":{"x":Player.position.x,"y":Player.position.y},
+            "size":15,
+        };
         const index = MyBulletArray.indexOf(null);//nullの位置を探す　なければ-1を返す　
         if (index !== -1) {
             MyBulletArray[index] = bullet; // 空いている弾丸スロットに新しい弾を追加
@@ -107,9 +118,12 @@ function update() {
     // 敵の生成
     if (enemyInformation.interbal <= 0) {
         enemyInformation.interbal = enemyInformation.fixedInterval; // 敵の生成間隔の設定
-        const preEnemy = getTemplate("enemy");//data.js内のenemyTemplateの取得
-        preEnemy.speed.Vx = -(Math.random());//スピードをランダムに設定(-1~0の間でランダム)
-        preEnemy.speed.Vy = (Math.random() - 0.5) * 2 - ((preEnemy.position.y - 240) / 240);
+        const preEnemy = enemyTemplate={
+            "HP":2,
+            "position":{"x":700,"y":480 * Math.random()},
+            "size":15,
+            "speed":{"Vx":-(Math.random()),Vy:(Math.random() - 0.5) * 2},
+        };
         const index = enemyInformation.enemyArray.indexOf(null);//nullの場所を探す。　なければ-1を返す
         if (index !== -1) {
             enemyInformation.enemyArray[index] = preEnemy; // 空いている敵スロットに新しい敵を追加

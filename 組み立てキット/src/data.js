@@ -65,7 +65,7 @@ imageArray[0].onload = function () {
     checkAllImagesLoaded();
 };
 
-
+//敵の画像の設定
 imageArray[1] = new Image();// 敵の画像
 imageArray[1].src = "./img/youseiGreen.png"; // 敵の画像のパス
 imageArray[1].onload = function () {
