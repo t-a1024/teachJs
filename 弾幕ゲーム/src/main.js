@@ -74,7 +74,7 @@ function update() {
     clearCanvas(); // キャンバスをクリア
 
     // Enterキーでの弾の発射
-    if (keySituation.Enter && Player.bulletInterval <= 0) {
+    if (Player.bulletInterval <= 0) {
         Player.bulletInterval = Player.bulletFixedInterval; // 弾の発射間隔の設定
         const bullet = getTemplate("MyBullet");//data.jsのbulletを複製
         bullet.position.x = Player.position.x;
@@ -83,6 +83,7 @@ function update() {
         if (index !== -1) {
             MyBulletArray[index] = bullet; // 空いている弾丸スロットに新しい弾を追加
         }
+        console.log(MyBulletArray);
     }
     // プレイヤーの弾丸の更新と描画
     MyBulletArray.forEach((bullet, bIndex) => {

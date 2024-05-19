@@ -93,23 +93,24 @@ function update(){
         if (index !== -1) {
             MyBulletArray[index] = bullet; // 空いている弾丸スロットに新しい弾を追加
         }
-    }else {
-        //ここでIntervalを１減らしておく
     }
-    MyBulletArray.forEach((bullet, bIndex) => {//弾を一つずつ描画し、弾を動かす。
+    MyBulletArray.forEach((bullet, index) => {//弾を一つずつ描画し、弾を動かす。
         if (bullet) {
             drawBullet(bullet);
             bullet.position.x += bullet.speed.Vx;
             bullet.position.y += bullet.speed.Vy;
             if (bullet && bullet.position.x > canvas.width) {
-                MyBulletArray[bIndex] = null; // 画面外に出た弾丸を削除
+                MyBulletArray[index] = null; // 画面外に出た弾丸を削除
             }
             
             enemyInformation.enemyArray.forEach((enemy) => {
                 // 弾丸と敵が当たっているかの判別と、当たっていた時の動作をここに描く。
             });
         }
-    });//
+    });
+
+    //Player.bulletInterval--;
+
 
     //敵のインターバルが0以下の場合、新しくenemyを作成してenemyInformation.enemyArrayに挿入する
     //0以上の場合、インターバルを１減らす。

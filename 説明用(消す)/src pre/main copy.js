@@ -115,6 +115,8 @@ function update() {
         }
     });//
 
+    Player.bulletInterval--;
+
     // 敵の生成
     if (enemyInformation.interbal <= 0) {
         enemyInformation.interbal = enemyInformation.fixedInterval; // 敵の生成間隔の設定
