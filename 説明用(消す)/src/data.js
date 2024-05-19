@@ -93,6 +93,3 @@ function getImage(type) {
             return imageArray[1];
     }
 }
-
-const image = new Image();//画像のオブジェクト(空)
-image.src="./img/imagePath.png";//画像のパス(pngじゃなくてもいいよ)

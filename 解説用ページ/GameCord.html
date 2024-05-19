@@ -102,15 +102,30 @@
           <!-- メニュー -->
           <nav class="nav_content">
             <ul class="nav_list" id="list">
-                <li><a href="index.html">前のページへ</a></li>
-                <li><a href="#js">javaScriptの基本的な書き方</a></li>
-                <li><a href="#PressKey">あらかじめ用意したプログラムの概要</a></li>
-                <li><a href="GameCord.html">実際に作ってみる(次のページへ)</a></li>
+                <li><a href="https://t-a1024.github.io/teachJs/解説用ページ/">最初のページへ</a></li>
+                <li><a href="https://t-a1024.github.io/teachJs/解説用ページ/src.html">javaScriptの文法のページへ</a></li>
+                <li><a href="#slide">スライド</a></li>
+                <li><a href="#object">main.jsの構造</a></li>
+                <li><a href="#canvas">canvasとctx</a></li>
+                <li><a href="#player">プレイヤーのオブジェクト</a></li>
+                <li><a href="#bullet">弾のオブジェクト</a></li>
+                <li><a href="#enemy">敵の部分</a></li>
+                <li><a href="#methods">メソッド</a></li>
             </ul>
           </nav>
      
         </div>
       </header>
+      <script>
+        // ハンバーガーメニューを閉じる関数
+        function closeMenu() {
+            document.getElementById("drawer_input").checked = false; // チェックボックスを非チェック状態にする
+        }
+        // ドキュメントがクリックされた時にメニューを閉じる
+        document.getElementById("list").addEventListener("click", function(event) {
+            closeMenu()
+        });
+        </script>
       <main>
         <section id="slide">
             <h1>今回使用するスライド</h1>
@@ -227,7 +242,7 @@
                 </dd>
             </dl>
         
-            <h3 id="enemy">敵の部分</h3>
+            <h3 id="enemy">敵のオブジェクト</h3>
             <dl>
                 <dt>enemyInformation</dt>
                 <dd>
@@ -359,9 +374,6 @@
                     プレイヤーの操作を更新する関数です。キー入力やスマホ操作に基づいてプレイヤーの位置を更新します。このメソッドは`update`関数内で呼び出されます。
                     <pre>
         function PlayerControl() {
-            if (isSmartPhone()) {
-                controlBySmartPhone();
-            }
             if (Player.invincibilityTime > 30) {
                 Player.position.x -= 0.5;
                 return;
