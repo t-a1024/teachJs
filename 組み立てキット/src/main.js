@@ -65,6 +65,13 @@ function drawBullet(bullet) {//弾の描画
     ctx.fill();//塗りつぶし　stroke()で枠線のみの描画も可能
 }
 
+function serchHit(a,b) {//当たり判定を調べるメソッド
+    const distanceSquared = Math.pow(a.position.x - b.position.x, 2) + Math.pow(a.position.y - b.position.y, 2);//Math.pow(x,2)=xの２乗
+    const collisionDistanceSquared = Math.pow(a.size + b.size, 2);
+    return distanceSquared <= collisionDistanceSquared;
+    //
+}
+
 function drawHPAndScore() {//スコアとHPの描画
     ctx.textAlign="start"
     ctx.font = '50px Roboto medium';//フォントと文字の大きさ
@@ -104,7 +111,7 @@ function update(){
             }
             
             enemyInformation.enemyArray.forEach((enemy) => {
-                // 弾丸と敵が当たっているかの判別と、当たっていた時の動作をここに描く。
+                // 弾丸と敵が当たっているかの判別と、当たっていた時の動作をここに描く(最後)
             });
         }
     });
