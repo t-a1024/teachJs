@@ -1,149 +1,189 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>今回作ったコードの解説</title>
     <style>
-
-.drawer_hidden {
-  display: none;
-}
-/* ハンバーガーアイコンの設置スペース */
-.drawer_open {
-  display: flex;
-  height: 60px;
-  width: 60px;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  right: 10px;
-  z-index: 100;/* 重なり順を一番上にする */
-  cursor: pointer;
-}
-
-/* ハンバーガーメニューのアイコン */
-.drawer_open span,
-.drawer_open span:before,
-.drawer_open span:after {
-  content: '';
-  display: block;
-  height: 3px;
-  width: 25px;
-  border-radius: 3px;
-  background: #333;
-  transition: 0.5s;
-  position: absolute;
-}
-
-/* 三本線の一番上の棒の位置調整 */
-.drawer_open span:before {
-  bottom: 8px;
-}
-
-/* 三本線の一番下の棒の位置調整 */
-.drawer_open span:after {
-  top: 8px;
-}
-
-/* アイコンがクリックされたら真ん中の線を透明にする */
-#drawer_input:checked ~ .drawer_open span {
-  background: rgba(255, 255, 255, 0);
-}
-
-/* アイコンがクリックされたらアイコンが×印になように上下の線を回転 */
-#drawer_input:checked ~ .drawer_open span::before {
-  bottom: 0;
-  transform: rotate(45deg);
-}
-
-#drawer_input:checked ~ .drawer_open span::after {
-  top: 0;
-  transform: rotate(-45deg);
-}
-  
-/* メニューのデザイン*/
-.nav_content {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 100%; /* メニューを画面の外に飛ばす */
-  z-index: 99;
-  background: #fff;
-  transition: .5s;
-}
-
-/* メニュー黒ポチを消す */
-.nav_list {
-  list-style: none;
-}
-
-/* アイコンがクリックされたらメニューを表示 */
-#drawer_input:checked ~ .nav_content {
-  left: 0;/* メニューを画面に入れる */
-}
-
-#slide{
-    text-align: center;
-}
-
-iframe{
-    width: 80vw;
-    height: 80vh;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        header .logo {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .nav {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .drawer_hidden {
+            display: none;
+        }
+        .drawer_open {
+            display: flex;
+            height: 60px;
+            width: 60px;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1001;
+            cursor: pointer;
+        }
+        .drawer_open span,
+        .drawer_open span:before,
+        .drawer_open span:after {
+            content: '';
+            display: block;
+            height: 3px;
+            width: 25px;
+            border-radius: 3px;
+            background: #fff;
+            transition: 0.5s;
+            position: absolute;
+        }
+        .drawer_open span:before {
+            bottom: 8px;
+        }
+        .drawer_open span:after {
+            top: 8px;
+        }
+        #drawer_input:checked ~ .drawer_open span {
+            background: rgba(255, 255, 255, 0);
+        }
+        #drawer_input:checked ~ .drawer_open span::before {
+            bottom: 0;
+            transform: rotate(45deg);
+        }
+        #drawer_input:checked ~ .drawer_open span::after {
+            top: 0;
+            transform: rotate(-45deg);
+        }
+        .nav_content {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 100%;
+            z-index: 999;
+            background: #fff;
+            transition: .5s;
+        }
+        .nav_list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 60px;
+        }
+        .nav_list li {
+            margin: 10px 0;
+        }
+        .nav_list a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2em;
+        }
+        #drawer_input:checked ~ .nav_content {
+            left: 0;
+        }
+        main {
+            margin-top: 80px;
+            padding: 20px;
+        }
+        h1, h2, h3, h4, h5 {
+            color: #333;
+        }
+        section {
+            margin-bottom: 40px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        dt {
+            font-weight: bold;
+        }
+        dl {
+            margin-left: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: #333;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        iframe {
+            width: 80vw;
+            height: 80vh;
+            border: none;
+        }
+        #slide {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <!-- ヘッダーロゴ -->
-        <div class="logo"></div>
-      
-        <!-- ハンバーガーメニュー部分 -->
+    <header>
+        <div class="logo">JavaScript Tutorial</div>
         <div class="nav">
-      
-          <!-- ハンバーガーメニューの表示・非表示を切り替えるチェックボックス -->
-          <input id="drawer_input" class="drawer_hidden" type="checkbox">
-      
-          <!-- ハンバーガーアイコン -->
-          <label for="drawer_input" class="drawer_open"><span></span></label>
-      
-          <!-- メニュー -->
-          <nav class="nav_content">
-            <ul class="nav_list" id="list">
-                <li><a href="https://t-a1024.github.io/teachJs/解説用ページ/">最初のページへ</a></li>
-                <li><a href="https://t-a1024.github.io/teachJs/解説用ページ/src.html">javaScriptの文法のページへ</a></li>
-                <li><a href="#slide">スライド</a></li>
-                <li><a href="#object">main.jsの構造</a></li>
-                <li><a href="#canvas">canvasとctx</a></li>
-                <li><a href="#player">プレイヤーのオブジェクト</a></li>
-                <li><a href="#bullet">弾のオブジェクト</a></li>
-                <li><a href="#enemy">敵の部分</a></li>
-                <li><a href="#methods">メソッド</a></li>
-            </ul>
-          </nav>
-     
+            <input id="drawer_input" class="drawer_hidden" type="checkbox">
+            <label for="drawer_input" class="drawer_open"><span></span></label>
+            <nav class="nav_content">
+                <ul class="nav_list" id="list">
+                    <li><a href="https://t-a1024.github.io/teachJs/">ホーム</a></li>
+                    <li><a href="https://t-a1024.github.io/teachJs/解説用ページ/">HTMLとCanvasについて</a></li>
+                    <li><a href="https://t-a1024.github.io/teachJs/解説用ページ/src.html">JavaScriptの文法</a></li>
+                    <li><a href="#slide">スライド</a></li>
+                    <li><a href="#object">main.jsの構造</a></li>
+                    <li><a href="#canvas">canvasとctx</a></li>
+                    <li><a href="#player">プレイヤーのオブジェクト</a></li>
+                    <li><a href="#bullet">弾のオブジェクト</a></li>
+                    <li><a href="#enemy">敵の部分</a></li>
+                    <li><a href="#methods">メソッド</a></li>
+                </ul>
+            </nav>
         </div>
-      </header>
-      <script>
-        // ハンバーガーメニューを閉じる関数
+    </header>
+    <script>
         function closeMenu() {
-            document.getElementById("drawer_input").checked = false; // チェックボックスを非チェック状態にする
+            document.getElementById("drawer_input").checked = false;
         }
-        // ドキュメントがクリックされた時にメニューを閉じる
-        document.getElementById("list").addEventListener("click", function(event) {
+        document.getElementById("list").addEventListener("click", function() {
             closeMenu()
         });
-        </script>
-      <main>
+    </script>
+    <main>
         <section id="slide">
             <h1>今回使用するスライド</h1>
-            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQdiiaJnc8HIWWv4FHZm5ZxeW9VkS21PXxVvSHJF63pcA1_e_nZdT304DVTmvACGPo86J9ayGN8A25i/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-            <h5>自分で先先進んでもできると思うよ</h5>
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQdiiaJnc8HIWWv4FHZm5ZxeW9VkS21PXxVvSHJF63pcA1_e_nZdT304DVTmvACGPo86J9ayGN8A25i/embed?start=false&loop=false&delayms=3000" allowfullscreen></iframe>
+            <h5>自分で先に進んでもできますよ</h5>
         </section>
         <section id="object">
             <h1>main.jsの構造</h1>
-        
             <h2>目次</h2>
             <ul>
                 <li><a href="#canvas">canvasとctx</a></li>
@@ -152,52 +192,51 @@ iframe{
                 <li><a href="#enemy">敵の部分</a></li>
                 <li><a href="#methods">メソッド</a></li>
             </ul>
-        
             <h3 id="canvas">テンプレ部分</h3>
             <dl>
                 <dt>canvas</dt>
                 <dd>
                     HTMLから`canvas`要素を取得し、その2D描画コンテキストを利用してゲームの描画を行います。
                     <pre>
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
                     </pre>
                     例えば、キャンバスをクリアする場合は次のように書きます：
                     <pre>
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+ctx.clearRect(0, 0, canvas.width, canvas.height);
                     </pre>
                 </dd>
                 <dt>ctx</dt>
                 <dd>
                     `ctx`はcontextの略で、`canvas`の2Dコンテキストです。これを使って描画操作を行います。
                     <pre>
-        ctx.fillStyle = "red"; // 塗りつぶしの色を設定
-        ctx.fillRect(10, 10, 50, 50); // 四角形を描画
+ctx.fillStyle = "red"; // 塗りつぶしの色を設定
+ctx.fillRect(10, 10, 50, 50); // 四角形を描画
                     </pre>
                 </dd>
             </dl>
-        
             <h3 id="player">プレイヤーのオブジェクト</h3>
             <dl>
                 <dt>Player</dt>
                 <dd>
                     プレイヤーのデータを保持するオブジェクトです。位置、サイズ、体力、移動速度などの情報を持ちます。
                     <pre>
-        const Player = {
-            HP: 5, // プレイヤーの体力
-            speed: 2, // プレイヤーの移動速度
-            bulletFixedInterval: 20, // 弾の発射間隔
-            size: 15, // プレイヤーのサイズ
-            position: { x: 50, y: 240 }, // プレイヤーの位置
-            bulletInterval: 0, // 弾の発射間隔カウンタ
-            Hitstun: 60, // ヒットスタン時間
-            invincibilityTime: 0, // 無敵時間
-        };
-        
-        // プレイヤーを右に移動する例
-        Player.position.x += Player.speed;
+const Player = {
+    HP: 5, // プレイヤーの体力
+    speed: 2, // プレイヤーの移動速度
+    bulletFixedInterval: 20, // 弾の発射間隔
+    size: 15, // プレイヤーのサイズ
+    position: { x: 50, y: 240 }, // プレイヤーの位置
+    bulletInterval: 0, // 弾の発射間隔カウンタ
+    Hitstun: 60, // ヒットスタン時間
+    invincibilityTime: 0, // 無敵時間
+};
+
+// プレイヤーを右に移動する例
+Player.position.x += Player.speed;
                     </pre>
                 </dd>
+
                 <dt>PlayerImage</dt>
                 <dd>
                     プレイヤーの画像オブジェクトです。画像をロードしてキャンバスに描画するために使用します。
@@ -484,7 +523,7 @@ iframe{
         
       </main>
     
-   
+   <br><br><br>
     <footer>
         <p>&copy;t-a</p>
     </footer>
