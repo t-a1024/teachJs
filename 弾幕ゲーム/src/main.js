@@ -46,10 +46,10 @@ function serchHit(a,b) {
 function clearCanvas() {// キャンバスのクリア(塗りつぶし)
     ctx.clearRect(0, 0, canvas.width, canvas.height); // キャンバスをクリア
 }
-
+const smartPhoneFlag = isSmartPhone();
 // プレイヤーの操作関数
 function PlayerControl() {
-    if (isSmartPhone()) {//スマホとか用
+    if (smartPhoneFlag) {//スマホとか用
         controlBySmartPhone();//keyStuationにスマホの操作を書き込むためのメソッド
     }
     if (Player.invincibilityTime > 30) {
@@ -74,7 +74,7 @@ function update() {
     clearCanvas(); // キャンバスをクリア
 
     // Enterキーでの弾の発射
-    if (Player.bulletInterval <= 0) {
+    if (Player.bulletInterval <= 0&&keySituation.Enter) {
         Player.bulletInterval = Player.bulletFixedInterval; // 弾の発射間隔の設定
         const bullet = getTemplate("MyBullet");//data.jsのbulletを複製
         bullet.position.x = Player.position.x;

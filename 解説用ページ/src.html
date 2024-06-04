@@ -75,7 +75,7 @@
             height: 3px;
             width: 25px;
             border-radius: 3px;
-            background: #fff;
+            background: #333;
             transition: 0.5s;
             position: absolute;
         }
@@ -283,7 +283,7 @@ enemyArray.forEach((enemy,index) => {//enemyArray[index]がenemyに代入され�
             <canvas id="imageCanvas"></canvas>
             <script>
                 const image=new Image();
-                image.src="/弾幕ゲーム/img/魔理沙right.png";
+                image.src="marisa.png";
                 image.onload=function(){
                     document.getElementById("imageCanvas").getContext("2d").drawImage(image,0,0,50,50);
                 }
