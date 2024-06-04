@@ -256,6 +256,7 @@ list[6] = 6; // 隙間を空けて追加することも可能
 console.log(list); // [5, 1, 2, 3, 4, empty, 6]
         </code></pre>
     </section>
+    <section>
     <dt><h4>foreachについて</h4></dt>
     <dd>配列の中身全てにアクションを起こしたい時に使う</dd>
     <h5>書き方</h5>
@@ -339,8 +340,12 @@ enemyArray.forEach((enemy,index) => {//enemyArray[index]がenemyに代入され�
     <pre>
 keySituation.a//aボタンが長押しされていたらtrue、いなければfalseを返す。
 keySituation.Enter//これでEnterキーが押されているかも見れる。
-ほぼ全てのボタンに対応させたが、漏れがあればPresskey.js内にあるkeySituationの変数を定義してる場所をいじれば治せる。
-    </pre>
+ほぼ全てのボタンに対応させたが、漏れがあればPresskey.js内にあるkeySituationの変数を定義してる場所をいじれば治せる。</pre>
+    <h5>例２</h5>
+    <pre>
+getkeySituation("a")//aボタンが長押しされていたらtrue、いなければfalseを返す。
+getkeySituation("Enter")//これでEnterキーが押されているかも見れる。
+keySituationのゲッターも用意した。こっちの方が見やすいんじゃないかなって</pre>
         </section>
 
     <section id="addon">

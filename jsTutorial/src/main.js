@@ -24,14 +24,14 @@ const MyBulletArray = new Array(100).fill(null);
 
 // プレイヤーの操作関数
 function PlayerControl() {
-    if (keySituation.d && Player.position.x + Player.size < canvas.width) {
+    if (getkeySituation("d") && Player.position.x + Player.size < canvas.width) {
         Player.position.x += Player.speed; // 右キーが押されている場合は右に移動
-    } else if (keySituation.a && Player.position.x - Player.size> 0) {
+    } else if (getkeySituation("a") && Player.position.x - Player.size> 0) {
         Player.position.x -= Player.speed; // 左キーが押されている場合は左に移動
     }
-    if (keySituation.s && Player.position.y + Player.size < canvas.height) {
+    if (getkeySituation("s") && Player.position.y + Player.size < canvas.height) {
         Player.position.y += Player.speed; 
-    } else if (keySituation.w && Player.position.y - Player.size> 0) {
+    } else if (getkeySituation("w") && Player.position.y - Player.size> 0) {
         Player.position.y -= Player.speed; 
     }
 }
