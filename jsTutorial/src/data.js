@@ -60,12 +60,12 @@ function serchHit(a,b) {//当たり判定を調べるためのfunction
 let imageArray=[]
 //プレイヤーの画像の設定
 imageArray[0]=new Image()
-imageArray[0].src = "./img/魔理沙right.png"; // プレイヤー画像のパス
+imageArray[0].src = "./img/marisa.png"; // プレイヤー画像のパス
 imageArray[0].onload = function () {
     checkAllImagesLoaded();
 };
 
-
+//敵の画像の設定
 imageArray[1] = new Image();// 敵の画像
 imageArray[1].src = "./img/youseiGreen.png"; // 敵の画像のパス
 imageArray[1].onload = function () {

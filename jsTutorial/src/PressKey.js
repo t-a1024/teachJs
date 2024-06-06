@@ -109,3 +109,11 @@ document.addEventListener("keyup", (e) => {
 これにより(keySituation.key)がキーを押されているかの判別に使える
 https://developer.mozilla.org/ja/docs/Web/API/Element/keydown_event
 */
+
+function getkeySituation(keyName){
+    if (keySituation.hasOwnProperty(keyName)) {
+        return keySituation[keyName];
+    }else{
+        return false
+    }
+}

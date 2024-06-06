@@ -1,10 +1,531 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>今回作ったコードの解説</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: gray;
+            color: #fff;
+            padding: 10px 0;
+            position: flex;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        header .logo {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .nav {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .drawer_hidden {
+            display: none;
+        }
+        .drawer_open {
+            display: flex;
+            height: 60px;
+            width: 60px;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1001;
+            cursor: pointer;
+        }
+        .drawer_open span,
+        .drawer_open span:before,
+        .drawer_open span:after {
+            content: '';
+            display: block;
+            height: 3px;
+            width: 25px;
+            border-radius: 3px;
+            background: #333;
+            transition: 0.5s;
+            position: absolute;
+        }
+        .drawer_open span:before {
+            bottom: 8px;
+        }
+        .drawer_open span:after {
+            top: 8px;
+        }
+        #drawer_input:checked ~ .drawer_open span {
+            background: rgba(255, 255, 255, 0);
+        }
+        #drawer_input:checked ~ .drawer_open span::before {
+            bottom: 0;
+            transform: rotate(45deg);
+        }
+        #drawer_input:checked ~ .drawer_open span::after {
+            top: 0;
+            transform: rotate(-45deg);
+        }
+        .nav_content {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 100%;
+            z-index: 999;
+            background: #fff;
+            transition: .5s;
+        }
+        .nav_list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 60px;
+        }
+        .nav_list li {
+            margin: 10px 0;
+        }
+        .nav_list a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2em;
+        }
+        #drawer_input:checked ~ .nav_content {
+            left: 0;
+        }
+        main {
+            margin-top: 80px;
+            padding: 20px;
+        }
+        h1, h2, h3, h4, h5 {
+            color: #333;
+        }
+        section {
+            margin-bottom: 40px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        dt {
+            font-weight: bold;
+        }
+        dl {
+            margin-left: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: #333;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        iframe {
+            width: 80vw;
+            height: 80vh;
+            border: none;
+        }
+        #slide {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>色々書くぞ〜</h1>
+    <header>
+        <div class="logo">JavaScript Tutorial</div>
+        <div class="nav">
+            <input id="drawer_input" class="drawer_hidden" type="checkbox">
+            <label for="drawer_input" class="drawer_open"><span></span></label>
+            <nav class="nav_content">
+                <ul class="nav_list" id="list">
+                    <li><a href="https://t-a1024.github.io/teachJs/">ホーム</a></li>
+                    <li><a href="https://t-a1024.github.io/teachJs/解説用ページ/">HTMLとCanvasについて</a></li>
+                    <li><a href="https://t-a1024.github.io/teachJs/解説用ページ/src.html">JavaScriptの文法</a></li>
+                    <li><a href="#slide">スライド</a></li>
+                    <li><a href="#object">main.jsの構造</a></li>
+                    <li><a href="#canvas">canvasとctx</a></li>
+                    <li><a href="#player">プレイヤーのオブジェクト</a></li>
+                    <li><a href="#bullet">弾のオブジェクト</a></li>
+                    <li><a href="#enemy">敵の部分</a></li>
+                    <li><a href="#methods">メソッド</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <script>
+        function closeMenu() {
+            document.getElementById("drawer_input").checked = false;
+        }
+        document.getElementById("list").addEventListener("click", function() {
+            closeMenu()
+        });
+    </script>
+    <main>
+        <section id="slide">
+            <h1>今回使用するスライド</h1>
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQdiiaJnc8HIWWv4FHZm5ZxeW9VkS21PXxVvSHJF63pcA1_e_nZdT304DVTmvACGPo86J9ayGN8A25i/embed?start=false&loop=false&delayms=3000" allowfullscreen></iframe>
+            <h5>自分で先に進んでもできますよ</h5>
+        </section>
+        <section id="object">
+            <h1>main.jsの構造</h1>
+            <h2>目次</h2>
+            <ul>
+                <li><a href="#canvas">canvasとctx</a></li>
+                <li><a href="#player">プレイヤーのオブジェクト</a></li>
+                <li><a href="#bullet">弾のオブジェクト</a></li>
+                <li><a href="#enemy">敵の部分</a></li>
+                <li><a href="#methods">メソッド</a></li>
+            </ul>
+            <h3 id="canvas">テンプレ部分</h3>
+            <dl>
+                <dt>canvas</dt>
+                <dd>
+                    HTMLから`canvas`要素を取得し、その2D描画コンテキストを利用してゲームの描画を行います。
+                    <pre>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+                    </pre>
+                    例えば、キャンバスをクリアする場合は次のように書きます：
+                    <pre>
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    </pre>
+                </dd>
+                <dt>ctx</dt>
+                <dd>
+                    `ctx`はcontextの略で、`canvas`の2Dコンテキストです。これを使って描画操作を行います。
+                    <pre>
+ctx.fillStyle = "red"; // 塗りつぶしの色を設定
+ctx.fillRect(10, 10, 50, 50); // 四角形を描画
+                    </pre>
+                </dd>
+            </dl>
+            <h3 id="player">プレイヤーのオブジェクト</h3>
+            <dl>
+                <dt>Player</dt>
+                <dd>
+                    プレイヤーのデータを保持するオブジェクトです。位置、サイズ、体力、移動速度などの情報を持ちます。
+                    <pre>
+const Player = {
+    HP: 5, // プレイヤーの体力
+    speed: 2, // プレイヤーの移動速度
+    bulletFixedInterval: 20, // 弾の発射間隔
+    size: 15, // プレイヤーのサイズ
+    position: { x: 50, y: 240 }, // プレイヤーの位置
+    bulletInterval: 0, // 弾の発射間隔カウンタ
+    Hitstun: 60, // ヒットスタン時間
+    invincibilityTime: 0, // 無敵時間
+};
+
+// プレイヤーを右に移動する例
+Player.position.x += Player.speed;
+                    </pre>
+                </dd>
+
+                <dt>PlayerImage</dt>
+                <dd>
+                    プレイヤーの画像オブジェクトです。画像をロードしてキャンバスに描画するために使用します。
+                    <pre>
+        const PlayerImage = getImage("Player");
+        
+        // プレイヤーの画像を描画する例
+        ctx.drawImage(PlayerImage, Player.position.x - 15, Player.position.y - 15, Player.size * 2, Player.size * 2);
+                    </pre>
+                </dd>
+            </dl>
+        
+            <h3 id="bullet">弾のオブジェクト</h3>
+            <dl>
+                <dt>MyBulletArray</dt>
+                <dd>
+                    プレイヤーの弾丸を保持する配列です。最大100個の弾丸を管理します。
+                    <pre>
+        const MyBulletArray = new Array(100).fill(null);
+        
+        // 新しい弾を追加する例
+        const bullet = {
+            speed: { Vx: 4, Vy: 0 },
+            position: { x: Player.position.x, y: Player.position.y },
+            size: 15,
+        };
+        const index = MyBulletArray.indexOf(null);
+        if (index !== -1) {
+            MyBulletArray[index] = bullet;
+        }
+                    </pre>
+                </dd>
+                <dt>update内で定義したbullet</dt>
+                <dd>
+                    弾のデータを定義するオブジェクトです。位置、速度、サイズなどの情報を持ちます。
+                    <pre>
+        const bullet = {
+            speed: { Vx: 4, Vy: 0 },
+            position: { x: Player.position.x, y: Player.position.y },
+            size: 15,
+        };
+        
+        // 弾丸の描画関数の例
+        function drawBullet(bullet) {
+            ctx.beginPath();
+            ctx.fillStyle = "yellow";
+            ctx.arc(bullet.position.x, bullet.position.y, bullet.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+                    </pre>
+                </dd>
+            </dl>
+        
+            <h3 id="enemy">敵のオブジェクト</h3>
+            <dl>
+                <dt>enemyInformation</dt>
+                <dd>
+                    敵の情報を保持するオブジェクトです。敵の生成間隔や敵の配列を持ちます。
+                    <pre>
+        const enemyInformation = {
+            fixedInterval: 60, // 敵の生成間隔
+            interbal: 0, // 生成間隔のカウンタ
+            enemyArray: new Array(100).fill(null) // 敵の配列
+        };
+        
+        // 敵の生成例
+        if (enemyInformation.interbal <= 0) {
+            enemyInformation.interbal = enemyInformation.fixedInterval;
+            const preEnemy = {
+                HP: 2,
+                position: { x: 700, y: 480 * Math.random() },
+                size: 15,
+                speed: { Vx: -(Math.random()), Vy: (Math.random() - 0.5) * 2 },
+            };
+            const index = enemyInformation.enemyArray.indexOf(null);
+            if (index !== -1) {
+                enemyInformation.enemyArray[index] = preEnemy;
+            }
+        }
+                    </pre>
+                </dd>
+                <dt>enemyImage</dt>
+                <dd>
+                    敵の画像オブジェクトです。画像をロードしてキャンバスに描画するために使用します。
+                    <pre>
+        const enemyImage = getImage("enemy");
+        
+        // 敵の画像を描画する例
+        ctx.drawImage(enemyImage, enemy.position.x - 15, enemy.position.y - 15, enemy.size * 2, enemy.size * 2);
+                    </pre>
+                </dd>
+            </dl>
+        
+            <h3 id="methods">メソッド</h3>
+            <dl>
+                <dt>drawPlayer()</dt>
+                <dd>
+                    プレイヤーを描画する関数です。プレイヤーが無敵時間中の場合、点滅させるために描画しないようにしています。このメソッドは`update`関数内で呼び出されます。
+                    <pre>
+        function drawPlayer() {
+            if (Player.HP <= 0) {
+                return; // プレイヤーの体力が0以下の場合は描画しない
+            }
+            if (Player.invincibilityTime > 0 && (Player.invincibilityTime % 5 == 1 || Player.invincibilityTime % 5 == 2)) {
+                return; // 無敵時間中は点滅させるため描画しない
+            }
+            ctx.drawImage(PlayerImage, Player.position.x - 15, Player.position.y - 15, Player.size * 2, Player.size * 2);
+        }
+        
+        // `update`関数内での呼び出し例
+        function update() {
+            // 他のコード
+            drawPlayer(); // プレイヤーを描画
+            // 他のコード
+        }
+                    </pre>
+                </dd>
+                <dt>drawBullet(bullet)</dt>
+                <dd>
+                    弾を描画する関数です。弾丸の位置、サイズを元にキャンバスに描画します。このメソッドは`update`関数内で呼び出されます。
+                    <pre>
+        function drawBullet(bullet) {
+            ctx.beginPath();
+            ctx.fillStyle = "yellow";
+            ctx.arc(bullet.position.x, bullet.position.y, bullet.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // `update`関数内での呼び出し例
+        function update() {
+            // 他のコード
+            MyBulletArray.forEach((bullet, bIndex) => {
+                if (bullet) {
+                    drawBullet(bullet); // 弾を描画
+                    // 他のコード
+                }
+            });
+        }
+                    </pre>
+                </dd>
+                <dt>serchHit(a, b)</dt>
+                <dd>
+                    当たり判定を行う関数です。2つのオブジェクトが衝突しているかどうかを判定します。このメソッドは`update`関数内で呼び出されます。
+                    <pre>
+        function serchHit(a, b) {
+            const distanceSquared = Math.pow(a.position.x - b.position.x, 2) + Math.pow(a.position.y - b.position.y, 2);
+            const collisionDistanceSquared = Math.pow(a.size + b.size, 2);
+            return distanceSquared < collisionDistanceSquared;
+        }
+        
+        // `update`関数内での呼び出し例
+        function update() {
+            // 他のコード
+            MyBulletArray.forEach((bullet, bIndex) => {
+                if (bullet) {
+                    enemyInformation.enemyArray.forEach((enemy, eIndex) => {
+                        if (enemy && serchHit(enemy, bullet)) { // 当たり判定
+                            // 他のコード
+                        }
+                    });
+                }
+            });
+        }
+                    </pre>
+                </dd>
+                <dt>clearCanvas()</dt>
+                <dd>
+                    キャンバスをクリアする関数です。このメソッドは`update`関数内で呼び出されます。
+                    <pre>
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        // `update`関数内での呼び出し例
+        function update() {
+            clearCanvas(); // キャンバスをクリア
+            // 他のコード
+        }
+                    </pre>
+                </dd>
+                <dt>PlayerControl()</dt>
+                <dd>
+                    プレイヤーの操作を更新する関数です。キー入力やスマホ操作に基づいてプレイヤーの位置を更新します。このメソッドは`update`関数内で呼び出されます。
+                    <pre>
+        function PlayerControl() {
+            if (Player.invincibilityTime > 30) {
+                Player.position.x -= 0.5;
+                return;
+            }
+            if (keySituation.d && Player.position.x + Player.size < canvas.width) {
+                Player.position.x += Player.speed;
+            } else if (keySituation.a && Player.position.x - Player.size > 0) {
+                Player.position.x -= Player.speed;
+            }
+            if (keySituation.s && Player.position.y + Player.size < canvas.height) {
+                Player.position.y += Player.speed;
+            } else if (keySituation.w && Player.position.y - Player.size > 0) {
+                Player.position.y -= Player.speed;
+            }
+        }
+        
+        // `update`関数内での呼び出し例
+        function update() {
+            PlayerControl(); // プレイヤーの操作を更新
+            // 他のコード
+        }
+                    </pre>
+                </dd>
+                <dt>interval()</dt>
+                <dd>
+                    インターバルのカウントダウンを行う関数です。プレイヤーの弾の発射間隔、敵の生成間隔、プレイヤーの無敵時間をカウントダウンします。このメソッドは`update`関数内で呼び出されます。
+                    <pre>
+        function interval() {
+            Player.bulletInterval--;
+            enemyInformation.interbal--;
+            Player.invincibilityTime--;
+        }
+        
+        // `update`関数内での呼び出し例
+        function update() {
+            // 他のコード
+            interval(); // インターバルのカウントダウン
+            // 他のコード
+        }
+                    </pre>
+                </dd>
+                <dt>drawHPAndScore()</dt>
+                <dd>
+                    プレイヤーの体力とスコアを描画する関数です。キャンバスにテキストとして表示します。このメソッドは`update`関数内および`finishGame`関数内で呼び出されます。
+                    <pre>
+        function drawHPAndScore() {
+            ctx.textAlign = "start";
+            ctx.font = '50px Roboto medium';
+            ctx.fillStyle = 'black';
+            ctx.fillText("❤️✖️" + Player.HP.toString(), 10, 50);
+            ctx.textAlign = "end";
+            ctx.fillText("Score:" + score.toString(), 640, 50);
+        }
+        
+        // `update`関数内での呼び出し例
+        function update() {
+            // 他のコード
+            drawHPAndScore(); // HPとスコアを描画
+            // 他のコード
+        }
+        
+        // `finishGame`関数内での呼び出し例
+        function finishGame() {
+            drawHPAndScore(); // HPとスコアを描画
+            ctx.textAlign = "center";
+            ctx.font = '80px Roboto medium';
+            ctx.fillStyle = 'green';
+            ctx.fillText("GAMEOVER", 320, 280);
+        }
+                    </pre>
+                </dd>
+                <dt>finishGame()</dt>
+                <dd>
+                    ゲーム終了時の処理を行う関数です。ゲームオーバーの表示を行います。このメソッドは`update`関数内で呼び出されます。
+                    <pre>
+        function finishGame() {
+            drawHPAndScore();
+            ctx.textAlign = "center";
+            ctx.font = '80px Roboto medium';
+            ctx.fillStyle = 'green';
+            ctx.fillText("GAMEOVER", 320, 280);
+        }
+        
+        // `update`関数内での呼び出し例
+        function update() {
+            // 他のコード
+            if (Player.HP <= 0) {
+                finishGame(); // ゲーム終了時の処理
+                return;
+            }
+            // 他のコード
+        }
+                    </pre>
+                </dd>
+            </dl>
+        </section>
+        
+        
+        
+      </main>
+    
+   <br><br><br>
+    <footer>
+        <p>&copy;t-a</p>
+    </footer>
 </body>
 </html>

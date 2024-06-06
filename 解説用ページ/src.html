@@ -1,245 +1,262 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>javascriptの解説</title>
+    <title>JavaScriptの解説</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
 
-.drawer_hidden {
-  display: none;
-}
-/* ハンバーガーアイコンの設置スペース */
-.drawer_open {
-  display: flex;
-  height: 60px;
-  width: 60px;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  right: 10px;
-  z-index: 100;/* 重なり順を一番上にする */
-  cursor: pointer;
-}
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
 
-/* ハンバーガーメニューのアイコン */
-.drawer_open span,
-.drawer_open span:before,
-.drawer_open span:after {
-  content: '';
-  display: block;
-  height: 3px;
-  width: 25px;
-  border-radius: 3px;
-  background: #333;
-  transition: 0.5s;
-  position: absolute;
-}
+        h2, h3, h4, h5 {
+            color: #333;
+        }
 
-/* 三本線の一番上の棒の位置調整 */
-.drawer_open span:before {
-  bottom: 8px;
-}
+        pre {
+            background: #e8e8e8;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
 
-/* 三本線の一番下の棒の位置調整 */
-.drawer_open span:after {
-  top: 8px;
-}
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
 
-/* アイコンがクリックされたら真ん中の線を透明にする */
-#drawer_input:checked ~ .drawer_open span {
-  background: rgba(255, 255, 255, 0);
-}
+        section {
+            padding: 20px;
+            margin: 10px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-/* アイコンがクリックされたらアイコンが×印になように上下の線を回転 */
-#drawer_input:checked ~ .drawer_open span::before {
-  bottom: 0;
-  transform: rotate(45deg);
-}
+        ol, ul {
+            margin: 0;
+            padding: 0;
+            padding-left: 20px;
+        }
 
-#drawer_input:checked ~ .drawer_open span::after {
-  top: 0;
-  transform: rotate(-45deg);
-}
-  
-/* メニューのデザイン*/
-.nav_content {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 100%; /* メニューを画面の外に飛ばす */
-  z-index: 99;
-  background: #fff;
-  transition: .5s;
-}
+        .drawer_hidden {
+            display: none;
+        }
 
-/* メニュー黒ポチを消す */
-.nav_list {
-  list-style: none;
-}
+        .drawer_open {
+            display: flex;
+            height: 60px;
+            width: 60px;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            right: 10px;
+            z-index: 100;
+            cursor: pointer;
+        }
 
-/* アイコンがクリックされたらメニューを表示 */
-#drawer_input:checked ~ .nav_content {
-  left: 0;/* メニューを画面に入れる */
-}
+        .drawer_open span,
+        .drawer_open span:before,
+        .drawer_open span:after {
+            content: '';
+            display: block;
+            height: 3px;
+            width: 25px;
+            border-radius: 3px;
+            background: #333;
+            transition: 0.5s;
+            position: absolute;
+        }
+
+        .drawer_open span:before {
+            bottom: 8px;
+        }
+
+        .drawer_open span:after {
+            top: 8px;
+        }
+
+        #drawer_input:checked ~ .drawer_open span {
+            background: rgba(255, 255, 255, 0);
+        }
+
+        #drawer_input:checked ~ .drawer_open span:before {
+            bottom: 0;
+            transform: rotate(45deg);
+        }
+
+        #drawer_input:checked ~ .drawer_open span:after {
+            top: 0;
+            transform: rotate(-45deg);
+        }
+
+        .nav_content {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 100%;
+            z-index: 99;
+            background: #fff;
+            transition: .5s;
+        }
+
+        .nav_list {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .nav_list li {
+            margin: 10px 0;
+        }
+
+        .nav_list a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        #drawer_input:checked ~ .nav_content {
+            left: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: #333;
+            color: #fff;
+        }
     </style>
 </head>
-<body>  
+<body>
 <header class="header">
-        <!-- ヘッダーロゴ -->
-        <div class="logo">ハンバーガーメニュー</div>
-      
-        <!-- ハンバーガーメニュー部分 -->
-        <div class="nav">
-      
-          <!-- ハンバーガーメニューの表示・非表示を切り替えるチェックボックス -->
-          <input id="drawer_input" class="drawer_hidden" type="checkbox">
-      
-          <!-- ハンバーガーアイコン -->
-          <label for="drawer_input" class="drawer_open"><span></span></label>
-      
-          <!-- メニュー -->
-          <nav class="nav_content">
+    <div class="logo">JavaScriptの解説</div>
+    <div class="nav">
+        <input id="drawer_input" class="drawer_hidden" type="checkbox">
+        <label for="drawer_input" class="drawer_open"><span></span></label>
+        <nav class="nav_content">
             <ul class="nav_list" id="list">
                 <li><a href="index.html">前のページへ</a></li>
-                <li><a href="#js">javaScriptの基本的な書き方</a></li>
+                <li><a href="#js">JavaScriptの基本的な書き方</a></li>
                 <li><a href="#PressKey">あらかじめ用意したプログラムの概要</a></li>
                 <li><a href="GameCord.html">実際に作ってみる(次のページへ)</a></li>
             </ul>
-          </nav>
-     
-        </div>
-      </header>
-      <script>
-        // ハンバーガーメニューを閉じる関数
-        function closeMenu() {
-            document.getElementById("drawer_input").checked = false; // チェックボックスを非チェック状態にする
-        }
-        // ドキュメントがクリックされた時にメニューを閉じる
-        document.getElementById("list").addEventListener("click", function(event) {
-            closeMenu()
-        });
-        </script>
+        </nav>
+    </div>
+</header>
+<script>
+    function closeMenu() {
+        document.getElementById("drawer_input").checked = false;
+    }
+
+    document.getElementById("list").addEventListener("click", function(event) {
+        closeMenu();
+    });
+</script>
+<main>
     <section id="table-of-contents">
         <h2>目次</h2>
         <ol>
-            <li><a href="#js">javaScriptの基本的な書き方</a></li>
+            <li><a href="#js">JavaScriptの基本的な書き方</a></li>
             <li><a href="#PressKey">あらかじめ用意したプログラムの概要</a></li>
             <li><a href="#addon">実際に作ってみる(次のページへ)</a></li>
         </ol>
     </section>
-    <main>
-        <section id="js">
-            <h2>javaScriptについて</h2>
-            <h4>
-                JavaScriptは、ウェブページに動的な機能を追加するためのプログラミング言語です。
-                ここで、基本的なjavaScriptの文法を書いておきます。
-            </h4>
-            <h3>コメント</h3>
-            <pre>
-    //の後ろまたは
-    /* この中の文章は */
-    プログラムに一切干渉しない。//の後ろに書かれた文は、基本説明です。
-</pre>
-            
-            <h3>
-                変数の定義の仕方
-            </h3>
-            <dl>
-                <dt>
-                    <h4>var</h4>
-                </dt>
-                <dd>後から好きなように再定義できる。また、どの位置からでも取り出せる。(基本地雷)</dd>
-                <p>
-                    <h5>例</h5>
-                </p>
-                <pre>
-    var a=3;
-    a=a+5//8
-    var a="Hello";
-    console.log(a)//Hello
-                </pre>
-                <dt><h4>
-                    let
-                </h4></dl>dt>
-                <dd>後から再定義はできないが、再代入は可能</dd>
-                    <h5>例</h5>
-                <pre>
-    let a=3;
-    //let a=5;新しく同じ名前の変数を作ることはできない
-    a=5//再代入は可能
-    a="Hello";
-                </pre>
-                <dt><h4>const</h4></dt>
-                <dd>再定義も再代入も出来ない変数。後から帰ることがない変数を作る際に使用する。(基本はこれ)</dd>
-                <h5>例</h5>
-                <pre>
-    const a=10;
-    //a=8;再代入は不可能
-    const object={
-        key:"value"
-    }
-    object.key="password";//後述のオブジェクトのキーは書き換えることが可能
-    console.log(object.key)//password
-    //object={key:password};変数の再代入は不可能
-                </pre>
-            </dl>
-            <h3>変数の形(今回使用するものに限る)</h3>
-            <dt><h4>プリミティブ型</h4></dt>
-            <dd>見た目通りの変数。jsにはintやstringなどの概念がなく、すべてany型として定義される。</dd>
-            <h5>例</h5>
-            <pre>
-    const a=0;//数字
-    const b="helloworld";//文字
-    const c=true;//真偽
-    let d=null;欠損値(存在がない　あとから代入するためとかで使用)
-    d=0.5;//小数
-            </pre>
-            <dt><h4>連想配列(Object)</h4></dt>
-            <dd>javascriptの基本となる型。keyに対してそれぞれの値を代入することができる</dd>
-            <h5>例</h5>
-    <pre>
-    const enemy={
-        key:value,//基本の書き方
-        HP: 5, // 敵の体力
-        speed: 2, // 敵の移動速度
-        position: { x: 50, y: 240 }, // 敵の初期位置
-    }
-    //攻撃を喰らったと仮定
-    enemy.HP-=1;//HPを1減らす
-    //右に移動するとする
-    enemy.position+=enemy.speed;//スピード分positionを動かす
-    //<h5>配列の中身は、constで定義されていても変更できる</h5>
-    </pre>
-    <dt><h4>ArrayList</h4></dt>
-    <dd>配列のこと。連想配列と違い、keyが数字で固定されている。</dd>
-    <pre>
-    const array=new Array(中身の数).fill(初期値);
-    </pre>
-    <h5>例</h5>
-    <pre>
-    const enemyArray=new Array(10).fill(null/*nullで全て埋める*/);
-    enemyArray[0]=JSON.parse(JSON.stringify(enemyData));//enemyDataをコピーしている。(すでにenemyDataが定義してあると仮定して)
-    //ここからは敵を追加する時の例
-    var preNumber=playerArray.indexOf(null)//リストの中でnullが入ってる場所を前から順に探す。ここの場合は1が出る。
-    enemyArray[preNumber]=JSON.parse(JSON.stringify(enemy));//これで、新しい敵をリストの中に追加した。
-    //この2行で、基本的に敵のデータを追加する。
-    //敵が消えたと仮定して
-    enemyArray[0]=null;//これで、0番目の敵は消えた。
-    </pre>
-    <h3>補足</h3>
-    <dt><h4>if文について</h4></dt>
-    <dd>条件分岐に使う</dd>
-    <h5>例</h5>
-    <pre>
-    let a=5;
-    let b={key:"value"};
-    let c=null;
-    if(a==5){/*条件がtrueなら動く。この場合a==5の為動く*/}
-    if(b){/*bは存在するのでtrue*/}
-    if(c){/*cは存在しない(null)ためfalse}
-    </pre>
+    <section id="js">
+        <h2>JavaScriptについて</h2>
+        <p>JavaScriptは、ウェブページに動的な機能を追加するためのプログラミング言語です。ここでは、基本的なJavaScriptの文法を解説します。</p>
+        
+        <h3>コメント</h3>
+        <pre><code>
+//の後ろまたは
+/* この中の文章は */
+// プログラムに一切干渉しない。//の後ろに書かれた文は、基本説明です。
+        </code></pre>
+        
+        <h3>変数の定義の仕方</h3>
+        <dl>
+            <dt><h4>var</h4></dt>
+            <dd>後から好きなように再定義できる。また、どの位置からでも取り出せる。(基本地雷)</dd>
+            <pre><code>
+var a = 3;
+a = a + 5; // 8
+var a = "Hello";
+console.log(a); // Hello
+            </code></pre>
+
+            <dt><h4>let</h4></dt>
+            <dd>後から再定義はできないが、再代入は可能</dd>
+            <pre><code>
+let a = 3;
+// let a = 5; 新しく同じ名前の変数を作ることはできない
+a = 5; // 再代入は可能
+a = "Hello";
+            </code></pre>
+
+            <dt><h4>const</h4></dt>
+            <dd>再定義も再代入も出来ない変数。後から変えることがない変数を作る際に使用する。(基本はこれ)</dd>
+            <pre><code>
+const a = 10;
+// a = 8; 再代入は不可能
+const object = {
+    key: "value"
+}
+object.key = "password"; // 後述のオブジェクトのキーは書き換えることが可能
+console.log(object.key); // password
+// object = {key: "password"}; 変数の再代入は不可能
+            </code></pre>
+        </dl>
+
+        <h3>変数の形 (今回使用するものに限る)</h3>
+        <dt><h4>プリミティブ型</h4></dt>
+        <dd>見た目通りの変数。jsにはintやstringなどの概念がなく、すべてany型として定義される。</dd>
+        <pre><code>
+const a = 0; // 数字
+const b = "helloworld"; // 文字
+const c = true; // 真偽
+let d = null; // 欠損値(存在がない　あとから代入するためとかで使用)
+d = 0.5; // 小数
+        </code></pre>
+
+        <dt><h4>連想配列 (Object)</h4></dt>
+        <dd>JavaScriptの基本となる型。keyに対してそれぞれの値を代入することができる</dd>
+        <pre><code>
+const enemy = {
+    key: value, // 基本の書き方
+    HP: 5, // 敵の体力
+    speed: 2, // 敵の移動速度
+    position: { x: 50, y: 240 } // 敵の初期位置
+}
+// 攻撃を喰らったと仮定
+enemy.HP -= 1; // HPを1減らす
+// 右に移動するとする
+enemy.position.x += enemy.speed; // スピード分positionを動かす
+// 配列の中身は、constで定義されていても変更できる
+        </code></pre>
+
+        <dt><h4>ArrayList</h4></dt>
+        <dd>配列のこと。連想配列と違い、keyが数字で固定されている。</dd>
+        <pre><code>
+const list = [0, 1, 2, 3]; // 配列の基本の書き方
+// 追加方法
+list.push(4); // 追加
+list[0] = 5; // 置き換え
+list[6] = 6; // 隙間を空けて追加することも可能
+console.log(list); // [5, 1, 2, 3, 4, empty, 6]
+        </code></pre>
+    </section>
+    <section>
     <dt><h4>foreachについて</h4></dt>
     <dd>配列の中身全てにアクションを起こしたい時に使う</dd>
     <h5>書き方</h5>
@@ -266,7 +283,7 @@ enemyArray.forEach((enemy,index) => {//enemyArray[index]がenemyに代入され�
             <canvas id="imageCanvas"></canvas>
             <script>
                 const image=new Image();
-                image.src="/弾幕ゲーム/img/魔理沙right.png";
+                image.src="marisa.png";
                 image.onload=function(){
                     document.getElementById("imageCanvas").getContext("2d").drawImage(image,0,0,50,50);
                 }
@@ -316,22 +333,28 @@ enemyArray.forEach((enemy,index) => {//enemyArray[index]がenemyに代入され�
     複雑な処理は基本function内に書いて、メインのコードが見やすくなるようにする。
         </section>
         <section id="PressKey">
+            <h1>あらかじめ作成したプログラム</h1>
             <h3>Presskey.jsについて</h3>
             <h5>あらかじめこちらで完成させておいたプログラム。キーが押されているかの判別をkeySituation.keyから確認できるようにした。</h5>
             <h5>例</h5>
     <pre>
-    keySituation.a//aボタンが長押しされていたらtrue、いなければfalseを返す。
-    keySituation.Enter//これでEnterキーが押されているかも見れる。
-ほぼ全てのボタンに対応させたが、漏れがあればPresskey.js内にあるkeySituationの変数を定義してる場所をいじれば治せる。
-    </pre>
+keySituation.a//aボタンが長押しされていたらtrue、いなければfalseを返す。
+keySituation.Enter//これでEnterキーが押されているかも見れる。
+ほぼ全てのボタンに対応させたが、漏れがあればPresskey.js内にあるkeySituationの変数を定義してる場所をいじれば治せる。</pre>
+    <h5>例２</h5>
+    <pre>
+getkeySituation("a")//aボタンが長押しされていたらtrue、いなければfalseを返す。
+getkeySituation("Enter")//これでEnterキーが押されているかも見れる。
+keySituationのゲッターも用意した。こっちの方が見やすいんじゃないかなって</pre>
         </section>
-        <section id="data">
-            <h3>data.jsについて</h3>
-            <h5>変数定義や演算などでグダリそうな場所をあらかじめ書いておいた。functionはそのまま使える</h5>
-        </section>
-        <section id="addon">
-            <a href="GameCord.html">実践(次のページへ)</a>
-        </section>
-    </main>
+
+    <section id="addon">
+        <h3>実際に作ってみる (次のページへ)</h3>
+        <p><a href="GameCord.html">次のページへ進む</a></p>
+    </section>
+</main>
+<footer>
+    &copy; 2024 JavaScript Tutorial. All rights reserved.
+</footer>
 </body>
 </html>

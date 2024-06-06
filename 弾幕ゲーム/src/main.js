@@ -37,13 +37,21 @@ function drawBullet(bullet) {//弾の描画
     //https://developer.mozilla.org/ja/docs/Web/API/CanvasRenderingContext2D/arc　詳しくはこれ見て
 }
 
+function serchHit(a,b) {
+    const distanceSquared = Math.pow(a.position.x - b.position.x, 2) + Math.pow(a.position.y - b.position.y, 2);
+    const collisionDistanceSquared = Math.pow(a.size + b.size, 2);
+    return distanceSquared <= collisionDistanceSquared;
+}
 
 function clearCanvas() {// キャンバスのクリア(塗りつぶし)
     ctx.clearRect(0, 0, canvas.width, canvas.height); // キャンバスをクリア
 }
-
+const smartPhoneFlag = isSmartPhone();
 // プレイヤーの操作関数
 function PlayerControl() {
+    if (smartPhoneFlag) {//スマホとか用
+        controlBySmartPhone();//keyStuationにスマホの操作を書き込むためのメソッド
+    }
     if (Player.invincibilityTime > 30) {
         Player.position.x -= 0.5; // 敵にぶつかった際にノックバックする
         return;//操作は受け付けない
@@ -66,7 +74,7 @@ function update() {
     clearCanvas(); // キャンバスをクリア
 
     // Enterキーでの弾の発射
-    if (keySituation.Enter && Player.bulletInterval <= 0) {
+    if (Player.bulletInterval <= 0&&keySituation.Enter) {
         Player.bulletInterval = Player.bulletFixedInterval; // 弾の発射間隔の設定
         const bullet = getTemplate("MyBullet");//data.jsのbulletを複製
         bullet.position.x = Player.position.x;
@@ -75,6 +83,7 @@ function update() {
         if (index !== -1) {
             MyBulletArray[index] = bullet; // 空いている弾丸スロットに新しい弾を追加
         }
+        console.log(MyBulletArray);
     }
     // プレイヤーの弾丸の更新と描画
     MyBulletArray.forEach((bullet, bIndex) => {
@@ -125,7 +134,7 @@ function update() {
             } else if (enemy.HP <= 0) {
                 enemyInformation.enemyArray[index] = null; // 倒された敵を削除
                 score++; // ポイントを増やす
-            }//elseを除くと途中でenemyがnullになってenemy.HPが存在しないからエラーになったりする。
+            }//elseを除くと途中でenemyがnullになってenemyが存在しないからエラーになったりする。
         }
     });
 

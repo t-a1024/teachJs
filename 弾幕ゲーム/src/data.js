@@ -52,15 +52,11 @@ function getTemplate(type) {
             break;
     }
 }
-function serchHit(a,b) {//当たり判定を調べるためのfunction
-    const distanceSquared = Math.pow(a.position.x - b.position.x, 2) + Math.pow(a.position.y - b.position.y, 2);
-    const collisionDistanceSquared = Math.pow(a.size + b.size, 2);
-    return distanceSquared <= collisionDistanceSquared;//三平方の定理で距離を調べてお互いのsizeを足したものより距離が短ければtrueを返す。
-}
+
 let imageArray=[]
 //プレイヤーの画像の設定
 imageArray[0]=new Image()
-imageArray[0].src = "./img/魔理沙right.png"; // プレイヤー画像のパス
+imageArray[0].src = "./img/marisa.png"; // プレイヤー画像のパス
 imageArray[0].onload = function () {
     checkAllImagesLoaded();
 };
