@@ -83,12 +83,12 @@ function drawHPAndScore() {//スコアとHPの描画
 }
 //updateを呼び出すメソッドはdata.jsの中にあるよ
 function update(){
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);//描画のリセット
+    ctx.clearRect(0, 0, canvas.width, canvas.height);//描画のリセット
     PlayerControl();
     drawPlayer();
 
     // 弾の発射
-    if (Player.bulletInterval <= 0) {
+    if (Player.bulletInterval <= 0 && getkeySituation("Enter")) {
         Player.bulletInterval = Player.bulletFixedInterval; // 弾の発射間隔の設定
         const bullet = {
             "speed":{"Vx":4,"Vy":0},
@@ -112,17 +112,61 @@ function update(){
             
             enemyInformation.enemyArray.forEach((enemy) => {
                 // 弾丸と敵が当たっているかの判別と、当たっていた時の動作をここに描く(最後)
+                if (enemy&&bullet) {//enemyかbulletが存在しない(null)時を省く
+                    if (serchHit(enemy,bullet)) {
+                        enemy.HP--; // 敵の体力を減らす
+                        MyBulletArray[index] = null; // 弾丸を削除
+                    }
+                }
             });
         }
     });
 
-    //Player.bulletInterval--;
-
-
-    //敵のインターバルが0以下の場合、新しくenemyを作成してenemyInformation.enemyArrayに挿入する
-    //0以上の場合、インターバルを１減らす。
-
-    //敵を一体ずつ描画し、敵を動かす。
+    //プレイヤーが連続でダメージを喰らわないための対策
+    Player.invincibilityTime--;
+    //プレイヤーが打つ弾の制御
+    Player.bulletInterval--;
+    //敵の出現頻度の制御
+    enemyInformation.interbal--;
+        // 敵の生成例
+    if (enemyInformation.interbal <= 0) {
+        enemyInformation.interbal = enemyInformation.fixedInterval;
+        //敵のデータの生成
+        const preEnemy = {
+            HP: 2,
+            position: { x: 700, y: 480 * Math.random() },
+            size: 15,
+            speed: { Vx: -(Math.random()), Vy: (Math.random() - 0.5) * 2 },
+        };
+        //データを配列に入れる
+        const index = enemyInformation.enemyArray.indexOf(null);
+        if (index !== -1) {
+            enemyInformation.enemyArray[index] = preEnemy;
+        }
+    }
+                        
+    enemyInformation.enemyArray.forEach((enemy,index)=>{
+        if (enemy){
+            ctx.drawImage(enemyImage, enemy.position.x - 15, enemy.position.y - 15, enemy.size * 2, enemy.size * 2);
+            enemy.position.x+=enemy.speed.Vx;
+            enemy.position.y+=enemy.speed.Vy;
+            //画面外に出た敵の削除
+            if (enemy.position.y > canvas.height || enemy.position.x < 0 || enemy.position.y < 0) {
+                enemyInformation.enemyArray[index] = null; // 画面外に出た敵を削除
+            }else if (serchHit(enemy,Player) && Player.invincibilityTime <= 0) {//プレイヤーと敵が当たっていてかつプレイヤーが無敵時間ではない時
+                Player.invincibilityTime = Player.Hitstun; // プレイヤーが敵に当たった場合の処理
+                Player.HP--;//HPを減らす
+                enemyInformation.enemyArray[index] = null; // 当たった敵を削除
+            } else if (enemy.HP <= 0) {
+                enemyInformation.enemyArray[index] = null; // 倒された敵を削除
+                score++; // ポイントを増やす
+            }//elseを除くと途中でenemyがnullになってenemyが存在しないからエラーになったりする。
+        }
+    })
+    
+    if (Player.HP==0) {
+        return;
+    }
 
     drawHPAndScore();//体力とスコアの描画
     window.requestAnimationFrame(update);//次の描画がされるタイミングにupdateを予約する
